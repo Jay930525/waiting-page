@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>台灣高鐵系統維護中</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .container {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                max-width: 500px;
+            }
+            h1 {
+                color: #e67e22;
+            }
+            p {
+                color: #555;
+                font-size: 18px;
+            }
+            .refresh-btn {
+                margin-top: 20px;
+                padding: 10px 20px;
+                font-size: 16px;
+                background-color: #e67e22;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+            .refresh-btn:hover {
+                background-color: #d35400;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🚄 台灣高鐵系統維護中</h1>
+            <p>我們正在進行系統維護，請稍後再試。</p>
+            <p>若您急需購票，請至高鐵車站或使用官方 App。</p>
+            <button class="refresh-btn" onclick="location.reload()">重新整理</button>
+        </div>
+    </body>
+</html>
