@@ -1,58 +1,150 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>台灣高鐵系統維護中</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                text-align: center;
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-            }
-            .container {
-                background: white;
-                padding: 30px;
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                max-width: 500px;
-            }
-            h1 {
-                color: #e67e22;
-            }
-            p {
-                color: #555;
-                font-size: 18px;
-            }
-            .refresh-btn {
-                margin-top: 20px;
-                padding: 10px 20px;
-                font-size: 16px;
-                background-color: #e67e22;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background 0.3s;
-            }
-            .refresh-btn:hover {
-                background-color: #d35400;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>🚄 台灣高鐵系統維護中</h1>
-            <p>我們正在進行系統維護，請稍後再試。</p>
-            <p>若您急需購票，請至高鐵車站或使用官方 App。</p>
-            <button class="refresh-btn" onclick="location.reload()">重新整理</button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台灣高鐵系統維護中</title>
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/css/uikit.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding-top: 80px; /* 為 header 預留空間 */
+        }
+        .header {
+            width: 100%;
+            height: 60px;
+            background: white;
+            padding: 5px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 30px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin-top: 20px;
+        }
+        h1 {
+            color: #e67e22;
+        }
+        p {
+            color: #555;
+            font-size: 18px;
+        }
+        .refresh-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .refresh-btn:hover {
+            background-color: #d35400;
+        }
+
+        nav{
+            width : 98%;
+            left : 10px;
+        }
+
+        .uk-navbar-nav>li>a{
+            color : #343436;
+        }
+
+        .uk-navbar-dropdown-nav>li>a{
+            color : #343436;
+        }
+
+    </style>
+</head>
+<body>
+<header class="header">
+    <nav class="uk-navbar uk-navbar-container uk-navbar-transparent">
+        <!-- Navbar Left -->
+        <div class="uk-navbar-left">
+            <a>
+            <img src="img/logo.svg" alt="台灣高鐵 Logo" width="125">
+            </a>
         </div>
-    </body>
+
+        <!-- Navbar Right -->
+        <div class="uk-navbar-right">
+            <!-- Desktop Menu -->
+            <ul class="uk-navbar-nav">
+                <li>
+                    <a href="#">預訂車票</a>
+                    <div class="uk-navbar-dropdown" uk-dropdown="delay-hide: 1000">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li><a href="/">一般訂票</a></li>
+                            <li><a href="/">信用卡優惠</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">管理訂位</a>
+                    <div class="uk-navbar-dropdown" uk-dropdown="delay-hide: 1000">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li><a href="/">訂位紀錄查詢、付款及修改</a></li>
+                            <li><a href="/">查詢訂位代號</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">交易/搭乘紀錄</a>
+                    <div class="uk-navbar-dropdown" uk-dropdown="delay-hide: 1000">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li><a href="https://ptis.thsrc.com.tw/ptis/" target="_blank">交易/搭乘紀錄查詢</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">🌐 繁體中文</a>
+                    <div class="uk-navbar-dropdown" uk-dropdown="delay-hide: 1000">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li><a href="#">繁體中文</a></li>
+                            <li><a href="#">English</a></li>
+                            <li><a href="#">日本語</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <h1>🚄 台灣高鐵系統維護中</h1>
+    <p>我們正在進行系統維護，請稍後再試。</p>
+    <p>若您急需購票，請至高鐵車站或使用官方 App。</p>
+    <button class="refresh-btn" onclick="location.reload()">重新整理</button>
+</div>
+
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit-icons.min.js"></script>
+</body>
 </html>
