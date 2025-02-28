@@ -42,15 +42,16 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
+            max-width: 600px;
             margin-top: 20px;
+            width: 100%;
         }
         h1 {
             color: #e67e22;
         }
         p {
             color: #555;
-            font-size: 18px;
+            font-size: 16px;
         }
         .refresh-btn {
             margin-top: 20px;
@@ -101,6 +102,20 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
 
+        .progress-container {
+            width: 100%;
+            background-color: #4caf50;
+            border-radius: 10px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 10px;
+            width: 0;
+            background-color: #ddd;
+            transition: width 1s linear;
+            transform-origin: left; /* 讓寬度變化從左側開始 */
+        }
 
     </style>
 </head>
@@ -159,12 +174,18 @@
     </nav>
 </header>
 
-<h1>目前等待人數：1000 </h1>
+<h1 class="waiting-people">目前等待人數：1000</h1>
 <div class="container">
-    <h1>🚄 購買人數眾多</h1>
-    <p>我們正在進行系統維護，請稍後再試。</p>
-    <p>若您急需購票，請至高鐵車站或使用官方 App。</p>
-    <button class="refresh-btn" onclick="location.reload()">重新整理</button>
+    <h1 id="t1">🚄 請稍候</h1>
+    <p id="t2">由於目前購買人數眾多，我們將依序處理訂單。</p>
+    <p id="t3">如有任何問題，請點選<a href="https://www.thsrc.com.tw/ArticleContent/afac38bd-ac68-419a-9b7f-e5c0ebce3ce8">客服</a>，我們將盡快為您協助處理。</p>
+
+<!--    <button class="refresh-btn" onclick="location.reload()">重新整理</button>-->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress"></div>
+    </div>
+    <p id="timer">網站將於 10 秒後更新</p>
+
 </div>
 
 
@@ -172,13 +193,6 @@
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit-icons.min.js"></script>
 
 <script>
-    const refreshBtn = document.querySelector('.refresh-btn');
-
-    refreshBtn.addEventListener('click', () => {
-        if (Math.random() < 0.1) { // 10% 機率
-            window.location.href = 'https://irs.thsrc.com.tw/IMINT/?locale=tw';
-        }
-    });
 
     const chinese = document.querySelector('.chinese');
     const english = document.querySelector('.english');
@@ -192,9 +206,41 @@
     const reservation = document.querySelector('.reservation');
     const records = document.querySelector('.record');
     const inquiry = document.querySelector('.inquiry');
+    const waitingPeople = document.querySelector('.waiting-people');
+    const container = document.querySelector('.container');
+
+
+    let people  = 1000;
+    let totalTime = 10; // 設定倒數時間 (秒)
+    let timeStart = 0;
+    function updateTimer_text() {
+        if(language.textContent === "🌐 繁體中文"){
+            timerDisplay.textContent = "網站將於 " + (totalTime-timeStart) + " 秒後更新"; // 修正顯示
+        }
+        else if(language.textContent === "🌐 English"){
+            timerDisplay.textContent = "The website will refresh in " + (totalTime-timeStart) + " seconds"
+        }
+        else{
+            timerDisplay.textContent = (totalTime-timeStart) + " 秒後にウェブサイトが更新されます";
+        }
+    }
+
 
     chinese.addEventListener('click', () => {
-        location.reload();
+        language.textContent = '🌐 繁體中文';
+        plans.textContent = "預訂車票";
+        general.textContent = "一般訂票";
+        card.textContent = "信用卡優惠";
+        manage.textContent = "管理訂位";
+        history.textContent = "訂位紀錄查詢、付款及修改";
+        reservation.textContent = "查詢訂位代號";
+        records.textContent = "交易/搭乘紀錄";
+        inquiry.textContent = "交易/搭乘紀錄查詢";
+        waitingPeople.textContent = "目前等待人數：" + people;
+        container.querySelector("#t1").textContent = "🚄 請稍候";
+        container.querySelector("#t2").textContent = "由於目前購買人數眾多，我們將依序處理訂單。";
+        container.querySelector("#t3").innerHTML = '如有任何問題，請點選<a href="https://www.thsrc.com.tw/ArticleContent/afac38bd-ac68-419a-9b7f-e5c0ebce3ce8">客服</a>，我們將盡快為您協助處理。';
+        updateTimer_text();
     });
 
     english.addEventListener('click', () => {
@@ -207,6 +253,11 @@
         reservation.textContent = "Reservation No. Enquiry";
         records.textContent = "Ticket Record";
         inquiry.textContent = "Mobile Ticket Inquiry";
+        waitingPeople.textContent = "People in Queue: " + people;
+        container.querySelector("#t1").textContent = "🚄 Please wait";
+        container.querySelector("#t2").textContent = "Due to the high number of purchases, we are processing orders in sequence.";
+        container.querySelector("#t3").innerHTML = 'If you have any questions, please contact <a href="https://www.thsrc.com.tw/ArticleContent/afac38bd-ac68-419a-9b7f-e5c0ebce3ce8">Customer Service</a>, and we will assist you as soon as possible.';
+        updateTimer_text();
     });
 
     japanese.addEventListener('click', () => {
@@ -219,7 +270,36 @@
         reservation.textContent = "予約番号検索";
         records.textContent = "取引/乗車記録";
         inquiry.textContent = "モバイルチケット照会";
+        waitingPeople.textContent = "現在の待機リスト: " + people;
+        container.querySelector("#t1").textContent = "🚄 しばらくお待ちください";
+        container.querySelector("#t2").textContent = "現在、多くの方が購入中のため、順番に処理しております。";
+        container.querySelector("#t3").innerHTML = 'ご不明な点がございましたら、<a href="https://www.thsrc.com.tw/ArticleContent/afac38bd-ac68-419a-9b7f-e5c0ebce3ce8">カスタマーサービス</a>までお問い合わせください。できるだけ早く対応いたします。';
+        updateTimer_text();
     });
+
+
+
+
+    let timerDisplay = document.getElementById("timer");
+    let progressBar = document.getElementById("progress");
+
+    console.log(timerDisplay);
+
+    function updateTimer() {
+        if (timeStart < 10) {
+            timeStart++;
+            // timerDisplay.textContent = "網站將於 " + (totalTime-timeStart) + " 秒後更新"; // 修正顯示
+            updateTimer_text();
+
+            let progressPercentage = (timeStart)*10;
+            progressBar.style.width = progressPercentage + "%";
+        } else {
+            clearInterval(timer); // 停止計時器，避免重複執行
+            window.location.reload();
+        }
+    }
+
+    let timer = setInterval(updateTimer, 1000);
 
 </script>
 
