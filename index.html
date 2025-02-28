@@ -210,9 +210,11 @@
     const container = document.querySelector('.container');
 
 
-    let people  = 1000;
+    let people = Math.floor(Math.random() * 1001) + 500; // 500 到 1500 之間
+    // people = 1;
     let totalTime = 10; // 設定倒數時間 (秒)
     let timeStart = 0;
+
     function updateTimer_text() {
         if(language.textContent === "🌐 繁體中文"){
             timerDisplay.textContent = "網站將於 " + (totalTime-timeStart) + " 秒後更新"; // 修正顯示
@@ -225,6 +227,19 @@
         }
     }
 
+    function update_waiting_people() {
+        if(language.textContent === "🌐 繁體中文"){
+            waitingPeople.textContent = "目前等待人數：" + people;
+        }
+        else if(language.textContent === "🌐 English"){
+            waitingPeople.textContent = "People in Queue: " + people;
+        }
+        else{
+            waitingPeople.textContent = "現在の待機リスト: " + people;
+        }
+    }
+    update_waiting_people();
+
 
     chinese.addEventListener('click', () => {
         language.textContent = '🌐 繁體中文';
@@ -236,7 +251,7 @@
         reservation.textContent = "查詢訂位代號";
         records.textContent = "交易/搭乘紀錄";
         inquiry.textContent = "交易/搭乘紀錄查詢";
-        waitingPeople.textContent = "目前等待人數：" + people;
+        update_waiting_people();
         container.querySelector("#t1").textContent = "🚄 請稍候";
         container.querySelector("#t2").textContent = "由於目前購買人數眾多，我們將依序處理訂單。";
         container.querySelector("#t3").innerHTML = '如有任何問題，請點選<a href="https://www.thsrc.com.tw/ArticleContent/afac38bd-ac68-419a-9b7f-e5c0ebce3ce8">客服</a>，我們將盡快為您協助處理。';
@@ -253,7 +268,7 @@
         reservation.textContent = "Reservation No. Enquiry";
         records.textContent = "Ticket Record";
         inquiry.textContent = "Mobile Ticket Inquiry";
-        waitingPeople.textContent = "People in Queue: " + people;
+        update_waiting_people();
         container.querySelector("#t1").textContent = "🚄 Please wait";
         container.querySelector("#t2").textContent = "Due to the high number of purchases, we are processing orders in sequence.";
         container.querySelector("#t3").innerHTML = 'If you have any questions, please contact <a href="https://www.thsrc.com.tw/ArticleContent/afac38bd-ac68-419a-9b7f-e5c0ebce3ce8">Customer Service</a>, and we will assist you as soon as possible.';
@@ -270,7 +285,7 @@
         reservation.textContent = "予約番号検索";
         records.textContent = "取引/乗車記録";
         inquiry.textContent = "モバイルチケット照会";
-        waitingPeople.textContent = "現在の待機リスト: " + people;
+        update_waiting_people();
         container.querySelector("#t1").textContent = "🚄 しばらくお待ちください";
         container.querySelector("#t2").textContent = "現在、多くの方が購入中のため、順番に処理しております。";
         container.querySelector("#t3").innerHTML = 'ご不明な点がございましたら、<a href="https://www.thsrc.com.tw/ArticleContent/afac38bd-ac68-419a-9b7f-e5c0ebce3ce8">カスタマーサービス</a>までお問い合わせください。できるだけ早く対応いたします。';
@@ -278,28 +293,60 @@
     });
 
 
+    function gotoNextPage() {
+        let selectedLang;
+        if(language.textContent === "🌐 繁體中文"){
+            selectedLang = 'zh';
+        }
+        else if(language.textContent === "🌐 English"){
+            selectedLang = 'en';
+        }
+        else{
+            selectedLang = 'ja';
+        }
+        // console.log(selectedLang);
+        // 透過 URL 參數來傳遞語言
+        window.location.href = "next.html?lang=" + selectedLang;
+    }
 
 
     let timerDisplay = document.getElementById("timer");
     let progressBar = document.getElementById("progress");
 
-    console.log(timerDisplay);
 
     function updateTimer() {
-        if (timeStart < 10) {
+        if (timeStart < totalTime) {
             timeStart++;
-            // timerDisplay.textContent = "網站將於 " + (totalTime-timeStart) + " 秒後更新"; // 修正顯示
             updateTimer_text();
 
-            let progressPercentage = (timeStart)*10;
+            let progressPercentage = (timeStart / totalTime) * 100;
             progressBar.style.width = progressPercentage + "%";
         } else {
-            clearInterval(timer); // 停止計時器，避免重複執行
-            window.location.reload();
+            people = Math.max(0, people - Math.floor(Math.random() * 100 + 250)); // 確保不低於 0
+            update_waiting_people();
+
+            if (people === 0) {
+                gotoNextPage();
+                return; // 防止後續程式執行
+            }
+
+            timeStart = 0; // 重置時間
+
+            // 重置進度條，但需要等待動畫結束後再重設
+            progressBar.style.transition = "none";
+            progressBar.style.width = "0%"; // 先將進度條回到 0%
+            updateTimer_text();
+
+
+            setTimeout(() => {
+                progressBar.style.transition = "width 1s linear";
+            }, 500); // 給瀏覽器一點時間應用變更，避免動畫跳躍
+
         }
     }
 
     let timer = setInterval(updateTimer, 1000);
+
 
 </script>
 
