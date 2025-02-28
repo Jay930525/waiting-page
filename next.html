@@ -102,6 +102,29 @@
       transition: background 0.3s ease, color 0.3s ease;
     }
 
+    .goBack{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+    }
+
+    button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.9);
+      color: black;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+
+
   </style>
 </head>
 <body>
@@ -162,6 +185,9 @@
 <div class="container">
   <h1 class="message">Success</h1>
 </div>
+
+<!--<button class="goBack"><a href="index.html">Go to first page</a></button>-->
+<button class="goBack">Go to first page</button>
 
 
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit.min.js"></script>
@@ -283,6 +309,13 @@
   } else {
     window.location.href = "index.html";
   }
+
+
+  const goBack = document.querySelector('.goBack');
+  console.log(goBack);
+  goBack.addEventListener('click', () => {
+    window.location.href = "index.html";
+  })
 
 
 </script>

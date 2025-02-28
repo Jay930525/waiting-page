@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>台灣高鐵系統維護中</title>
+    <title>台灣高鐵等待頁面</title>
     <link sizes="120x120" rel="icon" href="img/favicon.png"/>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/css/uikit.min.css" />
@@ -117,6 +117,29 @@
             transform-origin: left; /* 讓寬度變化從左側開始 */
         }
 
+        .toZero{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+
+        button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -185,8 +208,8 @@
         <div class="progress-bar" id="progress"></div>
     </div>
     <p id="timer">網站將於 10 秒後更新</p>
-
 </div>
+<button class="toZero">To Zero</button>
 
 
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit.min.js"></script>
@@ -347,6 +370,13 @@
 
     let timer = setInterval(updateTimer, 1000);
 
+
+    const toZero = document.querySelector('.toZero');
+
+    toZero.addEventListener('click', () => {
+        people = 0;
+        update_waiting_people();
+    })
 
 </script>
 
