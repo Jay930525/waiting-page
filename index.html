@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>台灣高鐵系統維護中</title>
     <link sizes="120x120" rel="icon" href="img/favicon.png"/>
-    <!-- UIkit CSS -->
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/css/uikit.min.css" />
     <style>
         body {
@@ -18,7 +18,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            padding-top: 80px; /* 為 header 預留空間 */
+            padding-top: 80px;
         }
         .header {
             width: 100%;
@@ -76,9 +76,30 @@
             color : #343436;
         }
 
-        .uk-navbar-dropdown-nav>li>a{
-            color : #343436;
+        .uk-navbar-dropdown {
+            padding: 5px; /* 縮小整個下拉選單的內邊距 */
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
+
+        .uk-navbar-dropdown-nav {
+            padding: 0;
+        }
+
+        .uk-navbar-dropdown-nav li {
+            margin: 2px 0; /* 減少選單項目之間的間距 */
+        }
+
+        .uk-navbar-dropdown-nav li a {
+            color : #343436;
+            display: block;
+            padding: 8px 15px; /* 減少內邊距，讓框變小 */
+            font-size: 14px; /* 調整字體大小，讓整體更緊湊 */
+            background-color: white;
+            border-radius: 4px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
 
     </style>
 </head>
@@ -97,38 +118,38 @@
             <!-- Desktop Menu -->
             <ul class="uk-navbar-nav">
                 <li>
-                    <a href="#">預訂車票</a>
+                    <a class="plan" href="#">預訂車票</a>
                     <div class="uk-navbar-dropdown" uk-dropdown="delay-hide: 1000">
                         <ul class="uk-nav uk-navbar-dropdown-nav">
-                            <li><a href="/">一般訂票</a></li>
-                            <li><a href="/">信用卡優惠</a></li>
+                            <li><a class="general" href="https://irs.thsrc.com.tw/IMINT/">一般訂票</a></li>
+                            <li><a class="card" href="https://irs.thsrc.com.tw/IMINT/creditcard">信用卡優惠</a></li>
                         </ul>
                     </div>
                 </li>
                 <li>
-                    <a href="#">管理訂位</a>
+                    <a class="manage" href="#">管理訂位</a>
                     <div class="uk-navbar-dropdown" uk-dropdown="delay-hide: 1000">
                         <ul class="uk-nav uk-navbar-dropdown-nav">
-                            <li><a href="/">訂位紀錄查詢、付款及修改</a></li>
-                            <li><a href="/">查詢訂位代號</a></li>
+                            <li><a class="history" href="https://irs.thsrc.com.tw/IMINT/?wicket:bookmarkablePage=:tw.com.mitac.webapp.thsr.viewer.History">訂位紀錄查詢、付款及修改</a></li>
+                            <li><a class="reservation" href="https://irs.thsrc.com.tw/IMINT/?wicket:bookmarkablePage=:tw.com.mitac.webapp.thsr.viewer.QueryPNR">查詢訂位代號</a></li>
                         </ul>
                     </div>
                 </li>
                 <li>
-                    <a href="#">交易/搭乘紀錄</a>
+                    <a class="record" href="#">交易/搭乘紀錄</a>
                     <div class="uk-navbar-dropdown" uk-dropdown="delay-hide: 1000">
                         <ul class="uk-nav uk-navbar-dropdown-nav">
-                            <li><a href="https://ptis.thsrc.com.tw/ptis/" target="_blank">交易/搭乘紀錄查詢</a></li>
+                            <li><a class="inquiry" href="https://ptis.thsrc.com.tw/ptis/">交易/搭乘紀錄查詢</a></li>
                         </ul>
                     </div>
                 </li>
                 <li>
-                    <a href="#">🌐 繁體中文</a>
+                    <a class="language" href="#">🌐 繁體中文</a>
                     <div class="uk-navbar-dropdown" uk-dropdown="delay-hide: 1000">
                         <ul class="uk-nav uk-navbar-dropdown-nav">
-                            <li><a href="#">繁體中文</a></li>
-                            <li><a href="#">English</a></li>
-                            <li><a href="#">日本語</a></li>
+                            <li class="chinese"><a href="#">繁體中文</a></li>
+                            <li class="english"><a href="#">English</a></li>
+                            <li class="japanese"><a href="#">日本語</a></li>
                         </ul>
                     </div>
                 </li>
@@ -144,7 +165,7 @@
     <button class="refresh-btn" onclick="location.reload()">重新整理</button>
 </div>
 
-<!-- UIkit JS -->
+
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit-icons.min.js"></script>
 
@@ -157,6 +178,49 @@
         }
     });
 
+    const chinese = document.querySelector('.chinese');
+    const english = document.querySelector('.english');
+    const japanese = document.querySelector('.japanese');
+    const language = document.querySelector('.language');
+    const plans = document.querySelector('.plan');
+    const general = document.querySelector('.general');
+    const card = document.querySelector('.card');
+    const manage = document.querySelector('.manage');
+    const history = document.querySelector('.history');
+    const reservation = document.querySelector('.reservation');
+    const records = document.querySelector('.record');
+    const inquiry = document.querySelector('.inquiry');
+
+    chinese.addEventListener('click', () => {
+        location.reload();
+    });
+
+    english.addEventListener('click', () => {
+        language.textContent = '🌐 English';
+        plans.textContent = "Plan & Book";
+        general.textContent = "Book Tickets";
+        card.textContent = "Credit Card";
+        manage.textContent = "Manage Booking";
+        history.textContent = "Booking History";
+        reservation.textContent = "Reservation No. Enquiry";
+        records.textContent = "Ticket Record";
+        inquiry.textContent = "Mobile Ticket Inquiry";
+    });
+
+    japanese.addEventListener('click', () => {
+        language.textContent = '🌐 日本語';
+        plans.textContent = "計画と予約";
+        general.textContent = "チケットの予約";
+        card.textContent = "クレジットカード";
+        manage.textContent = "予約管理";
+        history.textContent = "予約履歴照会/お支払・変更";
+        reservation.textContent = "予約番号検索";
+        records.textContent = "取引/乗車記録";
+        inquiry.textContent = "モバイルチケット照会";
+    });
+
 </script>
+
+
 </body>
 </html>
